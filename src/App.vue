@@ -5,7 +5,7 @@ onMounted(() => {
 });
 
 
-import Sidebar from './components/MySidebar.vue';
+import Sidebar from './components/Sidebar.vue';
 </script>
 
 <template>
