@@ -14,8 +14,8 @@
     </div>
 </template>
 
-<script setup>
-const props = defineProps({
+<script setup lang="ts">
+defineProps({
     label: {
         type: String,
         required: true

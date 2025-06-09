@@ -15,11 +15,17 @@
     </aside>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import SidebarItem from './SidebarItem.vue';
 
-const menuItems = [
+interface MenuItem {
+    id: string;
+    label: string;
+    icon: string;
+}
+
+const menuItems: MenuItem[] = [
     { id: 'home', label: '首页', icon: 'tabler--home' },
     { id: 'account', label: '账户', icon: 'tabler--user' },
     { id: 'notifications', label: '通知', icon: 'tabler--message' },
@@ -30,9 +36,9 @@ const menuItems = [
     { id: 'logout', label: '登出', icon: 'tabler--logout-2' }
 ];
 
-const activeItemId = ref('home'); // 默认选中账户
+const activeItemId = ref('home'); // 默认选中首页
 
-const setActiveItem = (id) => {
+const setActiveItem = (id: string) => {
     activeItemId.value = id;
 };
 </script>
