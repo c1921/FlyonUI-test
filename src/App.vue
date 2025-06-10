@@ -5,12 +5,14 @@ onMounted(() => {
 });
 
 
-import Sidebar from './components/Sidebar.vue';
+// import Sidebar from './components/Sidebar.vue';
+import MyMenu from './components/MyMenu.vue';
 </script>
 
 <template>
   <div class="flex">
-    <Sidebar />
+<!--     <Sidebar /> -->
+    <MyMenu />
   </div>
 
 </template>
