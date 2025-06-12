@@ -4,7 +4,7 @@
             class="rounded-field bg-base-100 shadow-base-300/20 absolute h-8 w-20 shadow-sm transition-transform duration-300 ease-in-out">
         </div>
         <button v-for="(option, index) in options" :key="index" @click="setActiveTab(index)"
-            class="rounded-field text-base-content z-1 h-8 w-20 truncate">
+            class="rounded-field text-base-content z-1 h-8 w-20 truncate px-2.5">
             {{ option }}
         </button>
     </div>
