@@ -1,43 +1,61 @@
 <template>
     <div class="card w-40">
         <div class="text-base-content card-body font-semibold">
-            <p class="mb-2 text-center text-5xl">
-                <span ref="countDisplay">{{ displayCount }}</span>
+            <p class="mb-2 text-center">
+                <span ref="countDisplay" class="text-2xl">{{ formattedCount }}</span>
+                <span class="block text-xs text-gray-500">{{ formattedOriginal }}</span>
             </p>
             <button 
                 @click="incrementCount" 
                 class="btn btn-primary btn-sm mx-auto"
-                :disabled="count >= maxCount"
             >
-                +15
+                +
             </button>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
+import numeral from 'numeral';
 
-// 定义计数器的最小值、最大值和增量
-const minCount = 10;
-const maxCount = 9999999999999;
-const increment = 1234567;
+// 定义增量
+const increment = 62345615678;
+
+// 科学计数法阈值 - 超过此值才使用科学计数法
+const scientificThreshold = 1000000; // 1百万
 
 // 响应式状态
-const count = ref(minCount);
-const displayCount = ref(minCount);
+const count = ref(0);
+const displayCount = ref(0);
 const countDisplay = ref(null);
+
+// 格式化后的计数 - 根据阈值决定使用普通格式还是科学计数法
+const formattedCount = computed(() => {
+    if (displayCount.value >= scientificThreshold) {
+        return numeral(displayCount.value).format('0.00e+0');
+    } else {
+        return numeral(displayCount.value).format('0,0');
+    }
+});
+
+// 格式化后的原始数值 - 千位分隔
+const formattedOriginal = computed(() => {
+    if (displayCount.value >= scientificThreshold) {
+        return numeral(displayCount.value).format('0,0');
+    } else {
+        return '';
+    }
+});
 
 // 动画持续时间
 const animationDuration = 700; // 毫秒
 
 // 增加计数的方法
 const incrementCount = () => {
-    if (count.value >= maxCount) return;
-    
     const startValue = count.value;
-    // 增加计数，但不超过最大值
-    count.value = Math.min(count.value + increment, maxCount);
+    // 增加计数
+    count.value = count.value + increment;
     
     // 添加数字变化的动画
     animateCount(startValue, count.value);
