@@ -4,6 +4,7 @@
 
 <script setup>
 import { onMounted } from 'vue'
+import { buildChart, buildTooltip } from '../utils/chartUtils'
 
 onMounted(() => {
     buildChart('#apex-single-area-chart', mode => ({
@@ -117,10 +118,13 @@ onMounted(() => {
                 const { dataPointIndex } = props
                 const title = categories[dataPointIndex].split(' ')
                 const newTitle = `${title[0]} ${title[1]}`
+                
+                // 正确传递当前作用域的mode变量
+                const currentMode = document.documentElement.classList.contains('dark') ? 'dark' : 'light'
 
                 return buildTooltip(props, {
                     title: newTitle,
-                    mode,
+                    mode: currentMode,
                     valuePrefix: '',
                     hasTextLabel: true,
                     markerExtClasses: 'bg-primary',
