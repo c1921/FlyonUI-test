@@ -4,44 +4,36 @@ onMounted(() => {
   setTimeout(() => window.HSStaticMethods.autoInit(), 100)
 });
 
-import MyMenu from './components/MyMenu.vue';
+import Sidebar from './components/Sidebar.vue';
 import Radio from './components/Radio.vue';
 import ToggleCount from './components/ToggleCount.vue';
 import RangeDemo from './components/RangeDemo.vue';
+import Tables from './components/Table.vue';
 
-// Radio组件示例的数据
-const tabOptions = ['Home', 'Account', 'Notifications'];
-const currentTab = ref(1); // 默认选中"分类"选项
+// 当前激活的菜单项
+const activeMenu = ref('home'); // 默认激活首页
 
-const handleTabChange = (index: number) => {
-  console.log(`切换到选项: ${tabOptions[index]}`);
+// 处理菜单切换
+const handleMenuChange = (menu: string) => {
+  activeMenu.value = menu;
 };
 </script>
 
 <template>
-  <div class="flex">
-    <MyMenu />
-    <div class="p-4 space-y-6">
-      <!-- 基本用法 -->
-      <div>
+  <div>
+    <Sidebar @menu-change="handleMenuChange" />
+    <div class="p-4 space-y-6 ml-14 md:ml-64 transition-all duration-500">
+      <!-- 首页内容 -->
+      <template v-if="activeMenu === 'home'">
         <Radio />
-      </div>
-      <!-- 自定义选项用法 -->
-      <div>
-        <Radio :options="tabOptions" :default-active="currentTab" @update:tab="currentTab = $event"
-          @change="handleTabChange" />
-      </div>
-      <ToggleCount />
-
-      <!-- 滑块组件 -->
-      <div>
+        <ToggleCount />
         <RangeDemo />
-      </div>
+      </template>
 
+      <template v-if="activeMenu === 'transaction'">
+        <Tables />
+      </template>
     </div>
-    <div>
-
-    </div>
-
+    <div></div>
   </div>
 </template>

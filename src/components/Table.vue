@@ -40,15 +40,16 @@
             </tbody>
         </table>
 
-        <div class="mt-4 text-center">
-            <button @click="executeAllTrades" class="btn btn-primary" :disabled="!hasTradeItems">
-                Execute All Trades
-            </button>
-            <button @click="resetAllTrades" class="btn btn-outline ml-2" :disabled="!hasTradeItems">
-                Reset
-            </button>
-        </div>
-        
+
+
+    </div>
+    <div class="mt-4 text-center">
+        <button @click="executeAllTrades" class="btn btn-primary" :disabled="!hasTradeItems">
+            Execute All Trades
+        </button>
+        <button @click="resetAllTrades" class="btn btn-outline ml-2" :disabled="!hasTradeItems">
+            Reset
+        </button>
     </div>
 </template>
 
@@ -225,18 +226,3 @@ const executeAllTrades = () => {
 };
 </script>
 
-<style scoped>
-.table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.table th, .table td {
-    padding: 0.75rem;
-    text-align: left;
-}
-
-.row-hover:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-}
-</style>
