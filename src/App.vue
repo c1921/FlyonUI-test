@@ -9,7 +9,6 @@ import Radio from './components/Radio.vue';
 import ToggleCount from './components/ToggleCount.vue';
 import RangeDemo from './components/RangeDemo.vue';
 import Tables from './components/Table.vue';
-import Charts from './components/Charts.vue';
 
 // 当前激活的菜单项
 const activeMenu = ref('home'); // 默认激活首页
@@ -36,7 +35,6 @@ const handleMenuChange = (menu: string) => {
       </template>
 
       <template v-if="activeMenu === 'production'">
-        <Charts />
       </template>
     </div>
   </div>

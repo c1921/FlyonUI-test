@@ -15,9 +15,7 @@
     "@iconify/json": "^2.2.346",
     "@iconify/tailwind4": "^1.0.6",
     "@tailwindcss/vite": "^4.1.8",
-    "apexcharts": "^4.7.0",
     "flyonui": "^2.2.0",
-    "lodash": "^4.17.21",
     "numeral": "^2.0.6",
     "tailwindcss": "^4.1.8",
     "vue": "^3.5.13"
