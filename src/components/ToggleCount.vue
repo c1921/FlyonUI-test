@@ -2,13 +2,18 @@
     <div class="card w-40">
         <div class="text-base-content card-body font-semibold">
             <p class="mb-2 text-center">
-                <span ref="countDisplay" class="text-2xl">{{ formattedCount }}</span>
-                <span class="block text-xs text-gray-500">{{ formattedOriginal }}</span>
+                <span ref="countDisplay" :class="[
+                    'text-2xl transition-all',
+                    isGlowing
+                        ? 'text-violet-100 drop-shadow-[0_0_20px] duration-100'
+                        : 'text-primary duration-700'
+                ]">
+                    {{ formattedCount }}
+                </span>
+
+                <span class="block text-xs text-neutral">{{ formattedOriginal }}</span>
             </p>
-            <button 
-                @click="incrementCount" 
-                class="btn btn-primary btn-sm mx-auto"
-            >
+            <button @click="incrementCount" class="btn btn-primary btn-sm mx-auto">
                 +
             </button>
         </div>
@@ -16,7 +21,7 @@
 </template>
 
 <script setup>
-import { ref, watch, computed } from 'vue';
+import { ref, watch, computed, nextTick } from 'vue';
 import numeral from 'numeral';
 
 // 定义增量
@@ -29,6 +34,8 @@ const scientificThreshold = 1000000; // 1百万
 const count = ref(0);
 const displayCount = ref(0);
 const countDisplay = ref(null);
+const isGlowing = ref(false); // 发光状态
+let glowTimer = null; // 定时器变量
 
 // 格式化后的计数 - 根据阈值决定使用普通格式还是科学计数法
 const formattedCount = computed(() => {
@@ -56,9 +63,28 @@ const incrementCount = () => {
     const startValue = count.value;
     // 增加计数
     count.value = count.value + increment;
-    
+    triggerGlow(); // 启动发光
+
     // 添加数字变化的动画
     animateCount(startValue, count.value);
+};
+
+const triggerGlow = async () => {
+    // 清除上一次的关闭发光计时器
+    if (glowTimer) {
+        clearTimeout(glowTimer);
+        glowTimer = null;
+    }
+
+    // 重置发光状态：关闭后立即开启以重新触发动画
+    isGlowing.value = false;
+    await nextTick(); // 等待 DOM 更新
+    isGlowing.value = true;
+
+    // 设置发光自动关闭
+    glowTimer = setTimeout(() => {
+        isGlowing.value = false;
+    }, 1000);
 };
 
 // 数字变化的动画函数
@@ -67,20 +93,20 @@ const animateCount = (start, end) => {
     const updateCount = (currentTime) => {
         const elapsedTime = currentTime - startTime;
         const progress = Math.min(elapsedTime / animationDuration, 1);
-        
+
         // 使用缓动函数使动画更自然
         const easedProgress = easeInOutCubic(progress);
-        
+
         // 计算当前应显示的值
         const currentValue = Math.floor(start + easedProgress * (end - start));
         displayCount.value = currentValue;
-        
+
         // 如果动画未完成，继续请求动画帧
         if (progress < 1) {
             requestAnimationFrame(updateCount);
         }
     };
-    
+
     requestAnimationFrame(updateCount);
 };
 
